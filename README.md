@@ -1,5 +1,8 @@
 # GS1 Digital Link resolver
 
+[![tests](https://github.com/Starfish-Network/gs1-digital-link-resolver/actions/workflows/test.yml/badge.svg)](https://github.com/Starfish-Network/gs1-digital-link-resolver/actions/workflows/test.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+
 A GS1 Digital Link is an identifier written as an HTTPS URL. `/01/09506000134352/10/ABC123`
 is GTIN 09506000134352, lot ABC123, and a scanner reads it straight off a package.
 
@@ -79,11 +82,49 @@ are carried as attributes and are available to templates by their AI code.
 
 ## Install
 
+Not on PyPI yet. Install from source:
+
 ```bash
-pip install gs1-digital-link-resolver
+pip install git+https://github.com/Starfish-Network/gs1-digital-link-resolver
 ```
 
 Python 3.11 or later. Depends on pydantic and fastapi, nothing else.
+
+## Try it
+
+```bash
+git clone https://github.com/Starfish-Network/gs1-digital-link-resolver
+cd gs1-digital-link-resolver
+pip install -e ".[example]"
+uvicorn examples.minimal_resolver:app
+```
+
+Follow a scan. It answers 307 to the default link, with the alternatives in the `Link`
+header:
+
+```bash
+curl -i "http://127.0.0.1:8000/dl/01/09506000134352/10/ABC123"
+```
+
+Ask for the lot-level link instead, and change the lot, to watch resolution follow the
+identifier:
+
+```bash
+curl -i "http://127.0.0.1:8000/dl/01/09506000134352/10/ABC123?linkType=gs1:traceability"
+curl -i "http://127.0.0.1:8000/dl/01/09506000134352/10/XYZ789?linkType=gs1:traceability"
+```
+
+Everything the identifier resolves to, the discovery document, and a mistyped identifier
+failing rather than redirecting somewhere plausible:
+
+```bash
+curl "http://127.0.0.1:8000/dl/01/09506000134352/10/ABC123?linkType=all"
+curl "http://127.0.0.1:8000/.well-known/gs1resolver"
+curl -i "http://127.0.0.1:8000/dl/01/09506000134353"
+```
+
+[`examples/minimal_resolver.py`](examples/minimal_resolver.py) is the whole thing, about
+thirty lines.
 
 ## Tests
 
@@ -97,6 +138,10 @@ pytest
 Written at [Starfish Network](https://starfish-network.com) and contributed to the Supply
 Chain of the Future (SCOTF) collaboration, which wanted an open implementation of the GS1
 Digital Link standard that anyone can run in front of their own system.
+
+## Contributing
+
+Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Licence
 

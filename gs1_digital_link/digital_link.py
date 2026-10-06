@@ -141,7 +141,7 @@ def parse_digital_link(
     if len(remaining) % 2:
         raise DigitalLinkError(f"trailing path segment {remaining[-1]!r} has no value")
 
-    for raw_ai, raw_value in zip(remaining[::2], remaining[1::2]):
+    for raw_ai, raw_value in zip(remaining[::2], remaining[1::2], strict=True):
         ai = normalise_ai(raw_ai)
         if ai is None:
             raise DigitalLinkError(f"path segment {raw_ai!r} is not a GS1 application identifier")

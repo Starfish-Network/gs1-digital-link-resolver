@@ -42,15 +42,11 @@ TEMPLATES = [
 ]
 
 app = FastAPI()
-app.include_router(
-    build_resolver_router(templates=TEMPLATES, resolver_base_url="https://id.example.com")
-)
+app.include_router(build_resolver_router(templates=TEMPLATES, resolver_base_url="https://id.example.com"))
 
 
 async def _get(path: str, headers: dict[str, str] | None = None):
-    async with AsyncClient(
-        transport=ASGITransport(app=app), base_url=BASE_URL, follow_redirects=False
-    ) as client:
+    async with AsyncClient(transport=ASGITransport(app=app), base_url=BASE_URL, follow_redirects=False) as client:
         return await client.get(path, headers=headers)
 
 
@@ -86,9 +82,7 @@ async def test_link_type_all_returns_the_linkset():
 
 @pytest.mark.asyncio
 async def test_linkset_media_type_is_honoured():
-    response = await _get(
-        f"{DEFAULT_STEM}/01/{VALID_GTIN}/10/{LOT}", {"accept": LINKSET_MEDIA_TYPE}
-    )
+    response = await _get(f"{DEFAULT_STEM}/01/{VALID_GTIN}/10/{LOT}", {"accept": LINKSET_MEDIA_TYPE})
 
     assert response.status_code == 200
     assert LinkSet(**response.json()).links
@@ -139,13 +133,9 @@ async def test_discovery_document_describes_the_resolver():
 async def test_a_custom_stem_moves_the_resolver():
     custom = FastAPI()
     custom.include_router(
-        build_resolver_router(
-            templates=TEMPLATES, resolver_base_url="https://id.example.com", stem="/id"
-        )
+        build_resolver_router(templates=TEMPLATES, resolver_base_url="https://id.example.com", stem="/id")
     )
-    async with AsyncClient(
-        transport=ASGITransport(app=custom), base_url=BASE_URL, follow_redirects=False
-    ) as client:
+    async with AsyncClient(transport=ASGITransport(app=custom), base_url=BASE_URL, follow_redirects=False) as client:
         moved = await client.get(f"/id/01/{VALID_GTIN}/10/{LOT}")
         gone = await client.get(f"{DEFAULT_STEM}/01/{VALID_GTIN}/10/{LOT}")
 

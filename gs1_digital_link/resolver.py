@@ -59,7 +59,6 @@ def build_resolver_router(
     """
     router = APIRouter()
 
-
     def _base_url() -> str:
         return resolver_base_url() if callable(resolver_base_url) else resolver_base_url
 
