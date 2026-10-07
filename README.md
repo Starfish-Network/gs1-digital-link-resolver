@@ -136,8 +136,7 @@ pytest
 ## Background
 
 Written at [Starfish Network](https://starfish-network.com) and contributed to the Supply
-Chain of the Future (SCOTF) collaboration, which wanted an open implementation of the GS1
-Digital Link standard that anyone can run in front of their own system.
+Chain of the Future (SCOTF) collaboration.
 
 ## Contributing
 
