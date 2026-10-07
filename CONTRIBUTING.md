@@ -23,7 +23,7 @@ for a database or a credential belongs in the application mounting the router, n
 
 Resolution must stay identity-blind. A resolver answers from the URL alone and the same
 scan returns the same answer to everybody; anything that varies the response by who is
-asking defeats the model and will be declined.
+asking defeats the model and is out of scope for this package.
 
 ## Style
 

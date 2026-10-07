@@ -1,4 +1,4 @@
-"""A conformant GS1 Digital Link resolver, as a router any FastAPI app can mount.
+"""A GS1 Digital Link resolver, as a router any FastAPI app can mount.
 
 Resolution is unauthenticated by design. A resolver routes on what is in the URL and
 never learns who is asking, so entitlement belongs to whatever application it redirects

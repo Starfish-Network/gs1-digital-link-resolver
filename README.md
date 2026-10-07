@@ -34,7 +34,8 @@ app.include_router(
 
 A scan of `https://id.example.com/dl/01/09506000134352/10/ABC123` then answers `307` to
 `https://example.com/p/09506000134352`, with the alternatives in an RFC 8288 `Link` header.
-Change the lot and the answer changes.
+Ask for `?linkType=gs1:traceability` and it resolves to
+`https://example.com/trace/09506000134352/ABC123` instead, following the lot.
 
 ## What it does
 
@@ -52,7 +53,7 @@ rather than redirecting somewhere plausible and wrong.
 Ask for `?linkType=all`, or send `Accept: application/linkset+json`, and you get the whole
 linkset instead of a redirect. `/.well-known/gs1resolver` serves a discovery document.
 
-## It never learns who is asking
+## Resolution is identity-blind
 
 A resolver routes on what is in the URL and nothing else. It has no database, no session
 and no credential, and its answer is a pure function of the path: two people scanning the
@@ -75,7 +76,7 @@ configuration. `resolver_base_url` accepts the same.
 
 ## Supported identifiers
 
-Every GS1 Digital Link primary key: GTIN, SSCC, GDTI, GCN, GINC, GSIN, GLN, PGLN, GRAI,
+The GS1 Digital Link primary keys: GTIN, SSCC, GDTI, GCN, GINC, GSIN, GLN, PGLN, GRAI,
 GIAI, ITIP, CPID, GMN and both GSRN forms, with the qualifiers each admits. Application
 identifiers that are not qualifiers of the primary key, in the path or the query string,
 are carried as attributes and are available to templates by their AI code.

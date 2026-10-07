@@ -8,8 +8,8 @@ outside the standard library and pydantic, which is what lets it be published on
 def calculate_check_digit(number: int | str) -> int:
     """Calculate the GS1 check digit for a number given *without* its check digit.
 
-    Covers every fixed-length GS1 key: GTIN-8/12/13/14, GLN and PGLN (13), GSIN (17),
-    SSCC and GRAI (18).
+    The same calculation for every GS1 key that carries a check digit, among them
+    GTIN-8/12/13/14, GLN and PGLN (13), GSIN (17), and SSCC and GSRN (18).
 
     Example:
         >>> calculate_check_digit("629104150021")
